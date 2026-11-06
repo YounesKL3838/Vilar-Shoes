@@ -61,19 +61,7 @@ Admin.views["categories"] = {
   });
 
   /* ----- image ----- */
-  function resize(file) {
-    return createImageBitmap(file).then(function (bmp) {
-      var s = Math.min(1, 900 / Math.max(bmp.width, bmp.height));
-      var cv = document.createElement('canvas');
-      cv.width = Math.round(bmp.width * s); cv.height = Math.round(bmp.height * s);
-      cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
-      return new Promise(function (res) {
-        cv.toBlob(function (b) {
-          if (b && b.type === 'image/webp') res(b); else cv.toBlob(function (j) { res(j); }, 'image/jpeg', 0.85);
-        }, 'image/webp', 0.82);
-      });
-    });
-  }
+  function resize(file) { return A.resizeImage(file, 1000, 4 / 5); }
   $('c-pick').addEventListener('click', function () { $('c-file').click(); });
   $('c-clear').addEventListener('click', function () { imageUrl = ''; showImage(); });
   $('c-file').addEventListener('change', function () {

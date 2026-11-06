@@ -130,3 +130,16 @@ body.lp{background:var(--ivory)}
   .lp-line{grid-template-columns:1fr}
   .lp-line .tot{grid-column:auto}
 }
+
+
+/* ---------- Toutes les images en portrait 4:5 (comme Instagram) ---------- */
+.lp-main .lp-media{aspect-ratio:4/5}
+.lp-main .lp-media img{height:100%;max-height:none;object-fit:cover}
+
+/* ---------- Skin moderne (landing) ---------- */
+.lp-main .lp-media{border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.lp-th{border-radius:12px}
+.lp-card,.lp-line,.lp-sum,.lp-model,.lp-dopt,.f .lp-dopt{border-radius:var(--r)}
+.lp-top .brand{font-size:1.2rem}
+.lp-buy h1{font-weight:800}
+.lp-price .pct{border-radius:999px}

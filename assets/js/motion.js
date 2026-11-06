@@ -12,7 +12,7 @@
             '.product .info > *, .line, .summary, .checkout form > .f, .thanks > *, ' +
             '.lp-feat, .lp-sec h2, .lp-desc, .lp-gallery img, .lp-card';
   var GRID = /(^|\s)(card|cat)(\s|$)/;
-  var IMGS = '.card-media img, .gallery-main img, .cat-img img, .arch img, .lp-media img, .lp-gallery img';
+  var IMGS = '.card-media img, .gallery-main img, .cat-img img, .hero-media img, .lp-media img, .lp-gallery img';
 
   var io = null;
   if (!reduce && 'IntersectionObserver' in window) {
@@ -67,7 +67,7 @@
       last = y;
 
       if (!reduce) {
-        var img = document.querySelector('.hero-art .arch img');
+        var img = document.querySelector('.hero-media img');
         if (img && img.parentNode) {
           var r = img.parentNode.getBoundingClientRect();
           if (r.bottom > 0 && r.top < window.innerHeight) {

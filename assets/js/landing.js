@@ -199,7 +199,7 @@
 
     var form = $('lp-form');
     form.wilaya.innerHTML = '<option value="">' + esc(T('k_wilaya_ph')) + '</option>' + zones.map(function (z) {
-      return '<option value="' + z.wilaya_code + '">' + String(z.wilaya_code).padStart(2, '0') + ' - ' + esc(z.name_fr) + '</option>';
+      return '<option value="' + z.wilaya_code + '">' + String(z.wilaya_code).padStart(2, '0') + ' - ' + esc(lp.lang === 'ar' && z.name_ar ? z.name_ar : z.name_fr) + '</option>';
     }).join('');
     $('lp-thumbs').addEventListener('click', function (e) {
       var b = e.target.closest('.lp-th'); if (!b) return;
@@ -358,7 +358,7 @@
       sb.from('landing_page_products')
         .select('offer_price,sort_order,products(*, product_images(url,sort_order), product_variants(id,size,color_name,color_hex,stock,is_active))')
         .eq('landing_page_id', lp.id).order('sort_order'),
-      sb.from('delivery_zones').select('wilaya_code,name_fr,home_fee,desk_fee').eq('is_active', true).order('wilaya_code'),
+      sb.from('delivery_zones').select('wilaya_code,name_fr,name_ar,home_fee,desk_fee').eq('is_active', true).order('wilaya_code'),
       UI.settings()
     ]).then(function (res) {
       items = (res[0].data || []).filter(function (row) { return row.products; })

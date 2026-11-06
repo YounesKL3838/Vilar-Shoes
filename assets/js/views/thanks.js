@@ -1,7 +1,7 @@
 /* Vilar - views/thanks.js : vue de la boutique (affichée dans index.html) */
 window.Views = window.Views || {};
 Views["thanks"] = {
-  tpl: "<div class=\"wrap\">\n      <section class=\"thanks\">\n        <div class=\"arch tick\" aria-hidden=\"true\"><span class=\"arch-word\">✓</span></div>\n        <h1 data-i18n=\"ty_title\"></h1>\n        <p class=\"muted\" id=\"ty-dup\" data-i18n=\"ty_dup\" hidden></p>\n        <dl class=\"ty-box\">\n          <div><dt data-i18n=\"ty_num\"></dt><dd id=\"ty-num\" dir=\"ltr\"></dd></div>\n          <div><dt data-i18n=\"ty_total\"></dt><dd id=\"ty-total\"></dd></div>\n        </dl>\n        <p data-i18n=\"ty_msg\"></p>\n        <a class=\"btn\" href=\"#/shop\" data-i18n=\"ty_more\"></a>\n      </section>\n    </div>",
+  tpl: "<div class=\"wrap\">\n      <section class=\"thanks\">\n        <div class=\"tick\" aria-hidden=\"true\">✓</div>\n        <h1 data-i18n=\"ty_title\"></h1>\n        <p class=\"muted\" id=\"ty-dup\" data-i18n=\"ty_dup\" hidden></p>\n        <dl class=\"ty-box\">\n          <div><dt data-i18n=\"ty_num\"></dt><dd id=\"ty-num\" dir=\"ltr\"></dd></div>\n          <div><dt data-i18n=\"ty_total\"></dt><dd id=\"ty-total\"></dd></div>\n        </dl>\n        <p data-i18n=\"ty_msg\"></p>\n        <a class=\"btn\" href=\"#/shop\" data-i18n=\"ty_more\"></a>\n      </section>\n    </div>",
   run: function (params) {
     var q = params.qs;
     var num = q.get('o') || '', total = parseFloat(q.get('t'));

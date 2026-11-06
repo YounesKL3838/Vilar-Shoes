@@ -103,7 +103,7 @@ Views["product"] = {
     if (p.images.length > 1) {
       document.getElementById('thumbs').innerHTML = p.images.map(function (u, i) {
         return '<button type="button" class="thumb" data-i="' + i + '" aria-label="' + (i + 1) + '"' + (i === 0 ? ' aria-current="true"' : '') +
-          '><img src="' + esc(u) + '" alt="" loading="lazy" width="72" height="72"></button>';
+          '><img src="' + esc(u) + '" alt="" loading="lazy" width="72" height="90"></button>';
       }).join('');
       document.getElementById('thumbs').addEventListener('click', function (e) {
         var b = e.target.closest('.thumb'); if (!b) return;

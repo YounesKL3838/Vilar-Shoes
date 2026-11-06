@@ -79,9 +79,9 @@
         var i = String(u || '').indexOf(MARK);
         return i === -1 ? null : decodeURIComponent(String(u).slice(i + MARK.length));
       }
-      function upload(file, folder, max) {
+      function upload(file, folder, max, ratio) {
         if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size > 20 * 1024 * 1024) return Promise.reject(new Error('ملف غير صالح.'));
-        return A.resizeImage(file, max).then(function (blob) {
+        return A.resizeImage(file, max, ratio).then(function (blob) {
           var path = folder + '/' + A.uuid() + (blob.type === 'image/webp' ? '.webp' : '.jpg');
           return sb.storage.from('site').upload(path, blob, { contentType: blob.type, cacheControl: '31536000' }).then(function (u) {
             if (u.error) throw u.error;
@@ -93,20 +93,20 @@
         $('logo-prev').hidden = !logoUrl; if (logoUrl) $('logo-prev').src = logoUrl; $('logo-clear').hidden = !logoUrl;
         $('hero-prev').hidden = !heroUrl; if (heroUrl) $('hero-prev').src = heroUrl; $('hero-clear').hidden = !heroUrl;
       }
-      function wireUpload(pickId, fileId, msgId, folder, max, getSet) {
+      function wireUpload(pickId, fileId, msgId, folder, max, ratio, getSet) {
         $(pickId).addEventListener('click', function () { $(fileId).click(); });
         $(fileId).addEventListener('change', function () {
           var f = this.files[0], input = this; if (!f) return;
           $(msgId).textContent = 'جاري الرفع…';
-          upload(f, folder, max).then(function (url) {
+          upload(f, folder, max, ratio).then(function (url) {
             var old = getSet(); if (old) removed.push(old);
             getSet(url); showImgs();
           }).catch(function (e) { A.toast(A.errText(e), true); })
             .then(function () { $(msgId).textContent = ''; input.value = ''; });
         });
       }
-      wireUpload('logo-pick', 'logo-file', 'logo-msg', 'branding', 600, function (v) { if (v === undefined) return logoUrl; logoUrl = v; });
-      wireUpload('hero-pick', 'hero-file', 'hero-msg', 'hero', 1600, function (v) { if (v === undefined) return heroUrl; heroUrl = v; });
+      wireUpload('logo-pick', 'logo-file', 'logo-msg', 'branding', 600, null, function (v) { if (v === undefined) return logoUrl; logoUrl = v; });
+      wireUpload('hero-pick', 'hero-file', 'hero-msg', 'hero', 1350, 4 / 5, function (v) { if (v === undefined) return heroUrl; heroUrl = v; });
       $('logo-clear').addEventListener('click', function () { if (logoUrl) removed.push(logoUrl); logoUrl = ''; showImgs(); });
       $('hero-clear').addEventListener('click', function () { if (heroUrl) removed.push(heroUrl); heroUrl = ''; showImgs(); });
       $('c-reset').addEventListener('click', function () {

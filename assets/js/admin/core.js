@@ -52,13 +52,19 @@
     return (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
       : 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
   }
-  // Redimensionne et convertit en WebP (JPEG si WebP indisponible)
-  function resizeImage(file, max) {
+  // Redimensionne, recadre au centre au format voulu (ratio = largeur/hauteur, ex. 4/5) et convertit en WebP
+  function resizeImage(file, max, ratio) {
     return createImageBitmap(file).then(function (bmp) {
-      var s = Math.min(1, (max || 1400) / Math.max(bmp.width, bmp.height));
+      var sx = 0, sy = 0, sw = bmp.width, sh = bmp.height;
+      if (ratio) {
+        var cur = sw / sh;
+        if (cur > ratio) { sw = Math.round(sh * ratio); sx = Math.round((bmp.width - sw) / 2); }
+        else if (cur < ratio) { sh = Math.round(sw / ratio); sy = Math.round((bmp.height - sh) / 2); }
+      }
+      var s = Math.min(1, (max || 1400) / Math.max(sw, sh));
       var cv = document.createElement('canvas');
-      cv.width = Math.round(bmp.width * s); cv.height = Math.round(bmp.height * s);
-      cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+      cv.width = Math.round(sw * s); cv.height = Math.round(sh * s);
+      cv.getContext('2d').drawImage(bmp, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
       return new Promise(function (res) {
         cv.toBlob(function (b) {
           if (b && b.type === 'image/webp') res(b); else cv.toBlob(function (j) { res(j); }, 'image/jpeg', 0.85);
@@ -76,6 +82,7 @@
   function errText(e) {
     var m = String((e && e.message) || e || '');
     if (/duplicate key|23505/.test(m)) return 'القيمة مستعملة مسبقاً (تكرار).';
+    if (/foreign key|23503/.test(m)) return 'لا يمكن الحذف لأن هناك بيانات مرتبطة (طلبات سابقة). عطّل العنصر بدلاً من حذفه.';
     if (/violates check|23514/.test(m)) return 'قيمة غير صالحة.';
     if (/row-level security|42501|FORBIDDEN/.test(m)) return 'لا تملك صلاحية هذه العملية.';
     return m || 'حدث خطأ.';

@@ -183,6 +183,7 @@
   function applyBranding(st) {
     var name = (st && st.name) || 'Vilar', logo = safeUrl(st && st.logo_url);
     document.querySelectorAll('.brand').forEach(function (b) {
+      b.classList.toggle('brand-ar', /[\u0600-\u06FF]/.test(name));
       var inHeader = !!b.closest('.site-header, .lp-top');
       if (logo && inHeader) b.innerHTML = '<img class="brand-img" src="' + esc(logo) + '" alt="' + esc(name) + '" height="40">';
       else b.textContent = name;
