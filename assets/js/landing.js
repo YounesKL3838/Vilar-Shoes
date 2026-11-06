@@ -65,8 +65,7 @@
   // Ligne de commande présentée comme dans le panier : image | infos + options + quantité | total de la ligne
   function renderOptions(focusSel) {
     var it = cur(), p = it.p, pi = priceInfo(it), cs = colors(), ss = sizes(), v = variant(), h = '';
-    var img = p.images[0], name = p['name_' + lp.lang] || p.name_fr;
-    h += img ? '<img src="' + esc(img) + '" alt="" width="96" height="120">' : '<div class="ph"></div>';
+    var name = p['name_' + lp.lang] || p.name_fr;
     h += '<div class="lp-info"><h3>' + esc(name) + '</h3><div class="price"><span class="now">' + money(pi.now) + '</span>' +
          (pi.was ? '<span class="was">' + money(pi.was) + '</span>' : '') + '</div>';
     if (cs.length) {
@@ -141,13 +140,23 @@
   }
 
   /* ---------- Page ---------- */
+  // Images affichées : image supplémentaire facultative (admin) en premier, puis les images du produit
+  function galleryImages() {
+    var imgs = cur().p.images.slice(), extra = safeUrl(lp.hero_image_url);
+    if (extra) imgs.unshift(extra);
+    return imgs;
+  }
+  function renderGallery() {
+    var imgs = galleryImages(), name = cur().p['name_' + lp.lang] || cur().p.name_fr;
+    $('lp-gal-main').innerHTML = imgs.length
+      ? '<img id="lp-gal-img" src="' + esc(imgs[0]) + '" alt="' + esc(name) + '" width="800" height="1000" fetchpriority="high">' : '';
+    $('lp-thumbs').innerHTML = imgs.length > 1 ? imgs.map(function (u, k) {
+      return '<button type="button" class="lp-th" data-i="' + k + '" aria-label="' + (k + 1) + '" aria-current="' + (k === 0) + '">' +
+        '<img src="' + esc(u) + '" alt="" loading="lazy" width="68" height="85"></button>';
+    }).join('') : '';
+  }
+
   function build() {
-    var heroImg = safeUrl(lp.hero_image_url) || (items[0].p.images[0] || '');
-    var feats = Array.isArray(lp.features) ? lp.features.slice(0, 8) : [];
-    var quotes = Array.isArray(lp.testimonials) ? lp.testimonials.slice(0, 6) : [];
-    var gallery = (Array.isArray(lp.gallery) ? lp.gallery : []).map(safeUrl).filter(Boolean);
-    if (!gallery.length) items.forEach(function (it) { gallery = gallery.concat(it.p.images); });
-    gallery = gallery.slice(0, 8);
     var cta = lp.cta_text || 'Commander maintenant';
 
     var models = items.length > 1
@@ -160,30 +169,14 @@
         }).join('') + '</div></fieldset>' : '';
 
     root.innerHTML =
-      '<section class="lp-hero"><div class="in"><div>' +
+      '<section class="lp-main"><div class="lp-in">' +
+      '<div class="lp-gal"><div class="lp-media" id="lp-gal-main"></div><div class="lp-thumbs" id="lp-thumbs"></div></div>' +
+      '<div class="lp-buy">' +
       '<h1>' + esc(lp.headline) + '</h1>' + (lp.subheadline ? '<p class="sub">' + esc(lp.subheadline) + '</p>' : '') +
       '<div class="lp-price" id="price-box"></div><div class="lp-timer" id="timer" hidden></div>' +
-      '<a class="btn lp-cta" href="#order">' + esc(cta) + '</a>' +
-      '<div class="lp-trust"><span>' + esc(T('f2')) + '</span><span>' + esc(T('f1')) + '</span><span>' + esc(T('f3')) + '</span></div></div>' +
-      '<div class="lp-media">' + (heroImg ? '<img src="' + esc(heroImg) + '" alt="' + esc(lp.title) + '" width="800" height="1000" fetchpriority="high">' : '') + '</div></div></section>' +
-
-      (feats.length ? '<section class="lp-sec"><div class="wrap"><div class="lp-feats">' + feats.map(function (f) {
-        return '<div class="lp-feat"><h3>' + esc(f.title) + '</h3><p>' + esc(f.text) + '</p></div>';
-      }).join('') + '</div></div></section>' : '') +
-
-      ((lp.description || gallery.length) ? '<section class="lp-sec" style="background:var(--bone)"><div class="wrap"><h2>' + esc(T('lp_gallery')) + '</h2>' +
-        (lp.description ? '<p class="lp-desc">' + esc(lp.description) + '</p>' : '') +
-        '<div class="lp-gallery">' + gallery.map(function (u) {
-          return '<img src="' + esc(u) + '" alt="" loading="lazy" decoding="async" width="600" height="750">';
-        }).join('') + '</div></div></section>' : '') +
-
-      (quotes.length ? '<section class="lp-sec"><div class="wrap"><h2>' + esc(T('sec_reviews')) + '</h2><div class="lp-quotes">' + quotes.map(function (q) {
-        var n = Math.max(1, Math.min(5, parseInt(q.rating, 10) || 5));
-        return '<figure class="review" style="margin:0"><div class="stars" role="img" aria-label="' + n + '/5">' + '★★★★★'.slice(0, n) +
-          '<span style="color:var(--sand)">' + '★★★★★'.slice(n) + '</span></div><p>' + esc(q.text) + '</p><figcaption><b>' + esc(q.name) + '</b></figcaption></figure>';
-      }).join('') + '</div></div></section>' : '') +
-
-      '<section class="lp-sec lp-order" id="order"><div class="wrap"><div class="lp-card"><h2>' + esc(T('lp_order_title')) + '</h2>' +
+      (lp.description ? '<p class="lp-desc2">' + esc(lp.description) + '</p>' : '') +
+      '<div class="lp-trust"><span>' + esc(T('f2')) + '</span><span>' + esc(T('f1')) + '</span><span>' + esc(T('f3')) + '</span></div>' +
+      '<div class="lp-card" id="order"><h2>' + esc(T('lp_order_title')) + '</h2>' +
       '<form id="lp-form" novalidate>' +
       '<div class="lp-step"><span class="n">1</span><h3>' + esc(T('lp_s1')) + '</h3></div>' + models +
       '<div class="line lp-line" id="line-box"></div><div class="ferr" id="line-err" role="alert"></div>' +
@@ -200,15 +193,22 @@
       '<div class="lp-step"><span class="n">3</span><h3>' + esc(T('lp_s3')) + '</h3></div>' +
       '<div class="lp-sum" id="sum-box"></div>' +
       '<div class="msg err" id="form-msg" role="alert"></div>' +
-      '<button class="btn btn-block lp-cta" id="submit" type="submit">' + esc(cta) + '</button></form></div></div></section>' +
-      '<div class="lp-foot">© ' + new Date().getFullYear() + ' Vilar</div>' +
-      '<div class="lp-sticky"><span class="p" id="stk-price"></span><a class="btn" href="#order">' + esc(cta) + '</a></div>';
+      '<button class="btn btn-block lp-cta" id="submit" type="submit">' + esc(cta) + '</button></form></div>' +
+      '</div></div></section>' +
+      '<div class="lp-foot">© ' + new Date().getFullYear() + ' Vilar</div>';
 
     var form = $('lp-form');
     form.wilaya.innerHTML = '<option value="">' + esc(T('k_wilaya_ph')) + '</option>' + zones.map(function (z) {
       return '<option value="' + z.wilaya_code + '">' + String(z.wilaya_code).padStart(2, '0') + ' - ' + esc(z.name_fr) + '</option>';
     }).join('');
-    resetSel(); refreshAll(); startTimer();
+    $('lp-thumbs').addEventListener('click', function (e) {
+      var b = e.target.closest('.lp-th'); if (!b) return;
+      var im = $('lp-gal-img'); if (!im) return;
+      im.src = galleryImages()[+b.dataset.i];
+      im.classList.remove('swap'); void im.offsetWidth; im.classList.add('swap');
+      document.querySelectorAll('.lp-th').forEach(function (x) { x.setAttribute('aria-current', x === b ? 'true' : 'false'); });
+    });
+    renderGallery(); resetSel(); refreshAll(); startTimer();
     bind(form);
   }
 
@@ -219,7 +219,7 @@
       Tracking.track('InitiateCheckout', { content_name: lp.title, currency: 'DZD', value: priceInfo(cur()).now * sel.qty });
     });
     form.addEventListener('change', function (e) {
-      if (e.target.name === 'model') { sel.pi = parseInt(e.target.value, 10) || 0; resetSel(); refreshAll(); }
+      if (e.target.name === 'model') { sel.pi = parseInt(e.target.value, 10) || 0; resetSel(); renderGallery(); refreshAll(); }
       else if (e.target.name === 'wilaya' || e.target.name === 'dtype') renderSummary();
     });
     $('line-box').addEventListener('click', function (e) {

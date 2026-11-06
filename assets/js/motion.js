@@ -67,7 +67,7 @@
       last = y;
 
       if (!reduce) {
-        var img = document.querySelector('.hero-art .arch img, .lp-media img');
+        var img = document.querySelector('.hero-art .arch img');
         if (img && img.parentNode) {
           var r = img.parentNode.getBoundingClientRect();
           if (r.bottom > 0 && r.top < window.innerHeight) {

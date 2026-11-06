@@ -1,11 +1,11 @@
 /* Vilar admin - landing-edit.js : écran affiché dans admin.html */
 Admin.views["landing-edit"] = {
-  tpl: "<div class=\"page-title\">\n          <h1 id=\"title\">صفحة هبوط جديدة</h1>\n          <a class=\"btn ghost\" href=\"#/landing\">← كل الصفحات</a>\n        </div>\n\n        <form id=\"lform\" novalidate>\n          <div class=\"card stack\">\n            <h2>الأساسيات</h2>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-title\">اسم داخلي للصفحة *</label><input class=\"field\" id=\"f-title\" maxlength=\"120\" placeholder=\"حملة الصنادل - نوفمبر\"></div>\n              <div><label class=\"lbl\" for=\"f-slug\">الرابط (slug) *</label><input class=\"field\" id=\"f-slug\" maxlength=\"80\" dir=\"ltr\" placeholder=\"sandale-beige\"></div>\n            </div>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-lang\">لغة الصفحة</label>\n                <select class=\"field\" id=\"f-lang\"><option value=\"ar\">العربية (RTL)</option><option value=\"fr\">Français</option></select></div>\n              <div style=\"display:flex;align-items:end\"><label class=\"check\"><input type=\"checkbox\" id=\"f-pub\"> منشورة (ظاهرة للزوار)</label></div>\n            </div>\n          </div>\n\n          <div class=\"card stack\">\n            <h2>النص التسويقي</h2>\n            <div><label class=\"lbl\" for=\"f-headline\">العنوان الرئيسي *</label><input class=\"field\" id=\"f-headline\" maxlength=\"160\"></div>\n            <div><label class=\"lbl\" for=\"f-sub\">عنوان فرعي</label><input class=\"field\" id=\"f-sub\" maxlength=\"240\"></div>\n            <div><label class=\"lbl\" for=\"f-desc\">وصف المنتج</label><textarea class=\"field\" id=\"f-desc\" rows=\"4\" maxlength=\"2000\"></textarea></div>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-cta\">نص زر الطلب</label><input class=\"field\" id=\"f-cta\" maxlength=\"40\" value=\"Commander maintenant\"></div>\n              <div><label class=\"lbl\" for=\"f-ends\">نهاية العرض (اختياري)</label><input class=\"field\" id=\"f-ends\" type=\"datetime-local\" dir=\"ltr\">\n                <span class=\"muted\" style=\"font-size:.85rem\">بعد هذا الوقت يعود السعر العادي تلقائياً ويتوقف المؤقت.</span></div>\n            </div>\n          </div>\n\n          <div class=\"card\">\n            <h2>المنتجات المرتبطة</h2>\n            <p class=\"muted\">اختر منتجاً أو أكثر. «سعر العرض» يُطبَّق على هذه الصفحة فقط (اتركه فارغاً لاستعمال سعر المنتج العادي). عند اختيار أكثر من منتج تختار الزبونة الموديل داخل الصفحة.</p>\n            <div class=\"tablewrap\">\n              <table style=\"min-width:560px\">\n                <thead><tr><th>إدراج</th><th>المنتج</th><th>سعره</th><th>سعر العرض (د.ج)</th><th>الترتيب</th></tr></thead>\n                <tbody id=\"prows\"></tbody>\n              </table>\n            </div>\n          </div>\n\n          <div class=\"card\">\n            <h2>الصورة الرئيسية</h2>\n            <div style=\"display:flex;gap:12px;align-items:center;flex-wrap:wrap\">\n              <img id=\"hero-prev\" alt=\"\" hidden style=\"width:90px;aspect-ratio:4/5;object-fit:cover;border-radius:2px\">\n              <input type=\"file\" id=\"hero-file\" accept=\"image/jpeg,image/png,image/webp\" hidden>\n              <button class=\"btn ghost sm\" type=\"button\" id=\"hero-pick\">اختيار صورة</button>\n              <button class=\"btn ghost sm\" type=\"button\" id=\"hero-clear\" hidden>إزالة</button>\n              <span class=\"muted\" id=\"hero-msg\" role=\"status\"></span>\n            </div>\n            <p class=\"muted\" style=\"margin:8px 0 0\">إذا تركتها فارغة تُستعمل أول صورة للمنتج.</p>\n          </div>\n\n          <div class=\"card\">\n            <h2>معرض الصور</h2>\n            <input type=\"file\" id=\"gal-file\" accept=\"image/jpeg,image/png,image/webp\" multiple hidden>\n            <button class=\"btn ghost sm\" type=\"button\" id=\"gal-pick\">+ رفع صور</button>\n            <span class=\"muted\" id=\"gal-msg\" role=\"status\"></span>\n            <div class=\"imgs\" id=\"gal\" style=\"margin-top:12px\"></div>\n          </div>\n\n          <div class=\"card\">\n            <h2>المميزات والفوائد</h2>\n            <div id=\"feats\" class=\"stack\"></div>\n            <button class=\"btn ghost sm\" type=\"button\" id=\"feat-add\" style=\"margin-top:10px\">+ ميزة</button>\n          </div>\n\n          <div class=\"card\">\n            <h2>آراء العملاء</h2>\n            <p class=\"muted\">أدخل آراء حقيقية من زبوناتك فقط.</p>\n            <div id=\"quotes\" class=\"stack\"></div>\n            <button class=\"btn ghost sm\" type=\"button\" id=\"quote-add\" style=\"margin-top:10px\">+ رأي</button>\n          </div>\n\n          <div class=\"msg\" id=\"msg\" role=\"alert\"></div>\n          <button class=\"btn\" type=\"submit\" id=\"save\">حفظ الصفحة</button>\n        </form>",
+  tpl: "<div class=\"page-title\">\n          <h1 id=\"title\">صفحة هبوط جديدة</h1>\n          <a class=\"btn ghost\" href=\"#/landing\">← كل الصفحات</a>\n        </div>\n\n        <form id=\"lform\" novalidate>\n          <div class=\"card stack\">\n            <h2>الأساسيات</h2>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-title\">اسم داخلي للصفحة *</label><input class=\"field\" id=\"f-title\" maxlength=\"120\" placeholder=\"حملة الصنادل - نوفمبر\"></div>\n              <div><label class=\"lbl\" for=\"f-slug\">الرابط (slug) *</label><input class=\"field\" id=\"f-slug\" maxlength=\"80\" dir=\"ltr\" placeholder=\"sandale-beige\"></div>\n            </div>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-lang\">لغة الصفحة</label>\n                <select class=\"field\" id=\"f-lang\"><option value=\"ar\">العربية (RTL)</option><option value=\"fr\">Français</option></select></div>\n              <div style=\"display:flex;align-items:end\"><label class=\"check\"><input type=\"checkbox\" id=\"f-pub\"> منشورة (ظاهرة للزوار)</label></div>\n            </div>\n          </div>\n\n          <div class=\"card stack\">\n            <h2>النص التسويقي</h2>\n            <div><label class=\"lbl\" for=\"f-headline\">العنوان الرئيسي *</label><input class=\"field\" id=\"f-headline\" maxlength=\"160\"></div>\n            <div><label class=\"lbl\" for=\"f-sub\">عنوان فرعي</label><input class=\"field\" id=\"f-sub\" maxlength=\"240\"></div>\n            <div><label class=\"lbl\" for=\"f-desc\">وصف المنتج</label><textarea class=\"field\" id=\"f-desc\" rows=\"4\" maxlength=\"2000\"></textarea></div>\n            <div class=\"row2\">\n              <div><label class=\"lbl\" for=\"f-cta\">نص زر الطلب</label><input class=\"field\" id=\"f-cta\" maxlength=\"40\" value=\"Commander maintenant\"></div>\n              <div><label class=\"lbl\" for=\"f-ends\">نهاية العرض (اختياري)</label><input class=\"field\" id=\"f-ends\" type=\"datetime-local\" dir=\"ltr\">\n                <span class=\"muted\" style=\"font-size:.85rem\">بعد هذا الوقت يعود السعر العادي تلقائياً ويتوقف المؤقت.</span></div>\n            </div>\n          </div>\n\n          <div class=\"card\">\n            <h2>المنتجات المرتبطة</h2>\n            <p class=\"muted\">اختر منتجاً أو أكثر. «سعر العرض» يُطبَّق على هذه الصفحة فقط (اتركه فارغاً لاستعمال سعر المنتج العادي). عند اختيار أكثر من منتج تختار الزبونة الموديل داخل الصفحة.</p>\n            <div class=\"tablewrap\">\n              <table style=\"min-width:560px\">\n                <thead><tr><th>إدراج</th><th>المنتج</th><th>سعره</th><th>سعر العرض (د.ج)</th><th>الترتيب</th></tr></thead>\n                <tbody id=\"prows\"></tbody>\n              </table>\n            </div>\n          </div>\n\n          <div class=\"card\">\n            <h2>صورة إضافية (اختياري)</h2>\n            <div style=\"display:flex;gap:12px;align-items:center;flex-wrap:wrap\">\n              <img id=\"hero-prev\" alt=\"\" hidden style=\"width:90px;aspect-ratio:4/5;object-fit:cover;border-radius:2px\">\n              <input type=\"file\" id=\"hero-file\" accept=\"image/jpeg,image/png,image/webp\" hidden>\n              <button class=\"btn ghost sm\" type=\"button\" id=\"hero-pick\">اختيار صورة</button>\n              <button class=\"btn ghost sm\" type=\"button\" id=\"hero-clear\" hidden>إزالة</button>\n              <span class=\"muted\" id=\"hero-msg\" role=\"status\"></span>\n            </div>\n            <p class=\"muted\" style=\"margin:8px 0 0\">تظهر أولاً مع صور المنتج الموجودة في الموقع. إن تركتها فارغة تظهر صور المنتج فقط.</p>\n          </div>\n\n          <div class=\"msg\" id=\"msg\" role=\"alert\"></div>\n          <button class=\"btn\" type=\"submit\" id=\"save\">حفظ الصفحة</button>\n        </form>",
   run: function (params) {
   var A = Admin, esc = A.esc;
   var $ = function (id) { return document.getElementById(id); };
   var MARK = '/storage/v1/object/public/landing/';
-  var id = null, heroUrl = '', gallery = [], feats = [], quotes = [], plist = [], removed = [], slugTouched = false;
+  var id = null, heroUrl = '', plist = [], removed = [], slugTouched = false;
 
   function storagePath(url) {
     var i = String(url || '').indexOf(MARK);
@@ -62,77 +62,6 @@ Admin.views["landing-edit"] = {
       .then(function () { $('hero-msg').textContent = ''; input.value = ''; });
   });
 
-  /* ---------- Galerie ---------- */
-  function renderGallery() {
-    $('gal').innerHTML = gallery.map(function (u, i) {
-      return '<figure data-i="' + i + '"><img src="' + esc(u) + '" alt="">' +
-        '<div class="acts"><button class="btn ghost sm" type="button" data-act="l"' + (i === 0 ? ' disabled' : '') + ' aria-label="تقديم">→</button>' +
-        '<button class="btn ghost sm" type="button" data-act="r"' + (i === gallery.length - 1 ? ' disabled' : '') + ' aria-label="تأخير">←</button>' +
-        '<button class="btn danger sm" type="button" data-act="d">حذف</button></div></figure>';
-    }).join('');
-  }
-  $('gal-pick').addEventListener('click', function () { $('gal-file').click(); });
-  $('gal-file').addEventListener('change', function () {
-    var files = Array.prototype.slice.call(this.files), input = this, n = 0;
-    (function next() {
-      if (!files.length) { $('gal-msg').textContent = ''; input.value = ''; return; }
-      $('gal-msg').textContent = 'جاري رفع الصورة ' + (++n) + '…';
-      upload(files.shift()).then(function (u) { gallery.push(u); renderGallery(); next(); })
-        .catch(function (e) { A.toast(A.errText(e), true); next(); });
-    })();
-  });
-  $('gal').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-act]'); if (!b) return;
-    var i = +b.closest('figure').dataset.i;
-    if (b.dataset.act === 'd') { removed.push(gallery[i]); gallery.splice(i, 1); }
-    else {
-      var j = b.dataset.act === 'l' ? i - 1 : i + 1; if (j < 0 || j >= gallery.length) return;
-      var t = gallery[i]; gallery[i] = gallery[j]; gallery[j] = t;
-    }
-    renderGallery();
-  });
-
-  /* ---------- Fonctionnalités & avis ---------- */
-  function renderFeats() {
-    $('feats').innerHTML = feats.length ? feats.map(function (f, i) {
-      return '<div class="row2" data-i="' + i + '" style="align-items:end"><div><label class="lbl">العنوان</label><input class="field" data-f="title" maxlength="80" value="' + esc(f.title) + '"></div>' +
-        '<div style="display:flex;gap:8px;align-items:end"><div style="flex:1"><label class="lbl">الوصف</label><input class="field" data-f="text" maxlength="200" value="' + esc(f.text) + '"></div>' +
-        '<button class="btn danger sm" type="button" data-act="rm" style="min-height:42px">حذف</button></div></div>';
-    }).join('') : '<div class="muted">لا توجد مميزات.</div>';
-  }
-  $('feats').addEventListener('input', function (e) {
-    var f = e.target.dataset.f; if (f) feats[+e.target.closest('[data-i]').dataset.i][f] = e.target.value;
-  });
-  $('feats').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-act=rm]'); if (!b) return;
-    feats.splice(+b.closest('[data-i]').dataset.i, 1); renderFeats();
-  });
-  $('feat-add').addEventListener('click', function () {
-    if (feats.length >= 8) { A.toast('الحد الأقصى 8 مميزات.', true); return; }
-    feats.push({ title: '', text: '' }); renderFeats();
-  });
-
-  function renderQuotes() {
-    $('quotes').innerHTML = quotes.length ? quotes.map(function (q, i) {
-      var opts = [5, 4, 3, 2, 1].map(function (n) { return '<option value="' + n + '"' + (+q.rating === n ? ' selected' : '') + '>' + n + ' ★</option>'; }).join('');
-      return '<div data-i="' + i + '" class="card" style="margin:0;padding:12px"><div class="row2"><div><label class="lbl">الاسم</label><input class="field" data-f="name" maxlength="60" value="' + esc(q.name) + '"></div>' +
-        '<div><label class="lbl">التقييم</label><select class="field" data-f="rating">' + opts + '</select></div></div>' +
-        '<label class="lbl" style="margin-top:10px">الرأي</label><textarea class="field" data-f="text" rows="2" maxlength="400">' + esc(q.text) + '</textarea>' +
-        '<button class="btn danger sm" type="button" data-act="rm" style="margin-top:8px">حذف</button></div>';
-    }).join('') : '<div class="muted">لا توجد آراء.</div>';
-  }
-  $('quotes').addEventListener('input', function (e) {
-    var f = e.target.dataset.f; if (f) quotes[+e.target.closest('[data-i]').dataset.i][f] = e.target.value;
-  });
-  $('quotes').addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-act=rm]'); if (!b) return;
-    quotes.splice(+b.closest('[data-i]').dataset.i, 1); renderQuotes();
-  });
-  $('quote-add').addEventListener('click', function () {
-    if (quotes.length >= 6) { A.toast('الحد الأقصى 6 آراء.', true); return; }
-    quotes.push({ name: '', rating: 5, text: '' }); renderQuotes();
-  });
-
   /* ---------- Sauvegarde ---------- */
   function toLocal(iso) {
     if (!iso) return '';
@@ -151,10 +80,6 @@ Admin.views["landing-edit"] = {
       var o = String(sel[i].offer).trim();
       if (o !== '' && !(parseFloat(o) >= 0)) return { err: 'سعر العرض يجب أن يكون رقماً ≥ 0.' };
     }
-    var f = feats.filter(function (x) { return x.title.trim() || x.text.trim(); });
-    if (f.some(function (x) { return !x.title.trim(); })) return { err: 'كل ميزة تحتاج عنواناً.' };
-    var q = quotes.filter(function (x) { return x.name.trim() || x.text.trim(); });
-    if (q.some(function (x) { return !x.name.trim() || !x.text.trim(); })) return { err: 'كل رأي يحتاج اسماً ونصاً.' };
     var ends = $('f-ends').value ? new Date($('f-ends').value) : null;
     if (ends && isNaN(ends.getTime())) return { err: 'تاريخ نهاية العرض غير صالح.' };
     return {
@@ -162,9 +87,6 @@ Admin.views["landing-edit"] = {
       payload: {
         slug: slug, title: title, headline: headline, subheadline: $('f-sub').value.trim() || null,
         lang: $('f-lang').value, hero_image_url: heroUrl || null, description: $('f-desc').value.trim() || null,
-        features: f.map(function (x) { return { title: x.title.trim(), text: x.text.trim() }; }),
-        gallery: gallery.slice(),
-        testimonials: q.map(function (x) { return { name: x.name.trim(), rating: parseInt(x.rating, 10) || 5, text: x.text.trim() }; }),
         cta_text: $('f-cta').value.trim() || 'Commander maintenant',
         offer_ends_at: ends ? ends.toISOString() : null, is_published: $('f-pub').checked
       }
@@ -194,7 +116,7 @@ Admin.views["landing-edit"] = {
       }).then(function (d) { if (d.error) throw d.error; });
     }).then(function () {
       // Nettoyage des images retirées (jamais celles encore utilisées)
-      var used = gallery.concat(heroUrl ? [heroUrl] : []);
+      var used = heroUrl ? [heroUrl] : [];
       var paths = removed.filter(function (u) { return used.indexOf(u) === -1; }).map(storagePath).filter(Boolean);
       removed = [];
       return paths.length ? sb.storage.from('landing').remove(paths) : null;
@@ -234,12 +156,9 @@ Admin.views["landing-edit"] = {
         $('f-desc').value = page.description || ''; $('f-cta').value = page.cta_text || 'Commander maintenant';
         $('f-ends').value = toLocal(page.offer_ends_at);
         heroUrl = page.hero_image_url || '';
-        gallery = Array.isArray(page.gallery) ? page.gallery.slice() : [];
-        feats = Array.isArray(page.features) ? page.features.map(function (x) { return { title: x.title || '', text: x.text || '' }; }) : [];
-        quotes = Array.isArray(page.testimonials) ? page.testimonials.map(function (x) { return { name: x.name || '', rating: x.rating || 5, text: x.text || '' }; }) : [];
         if (q.get('saved')) A.toast('تم إنشاء الصفحة.');
       }
-      renderProducts(); renderHero(); renderGallery(); renderFeats(); renderQuotes();
+      renderProducts(); renderHero();
     });
   }).catch(function (e) { A.toast(A.errText(e), true); });
 }
